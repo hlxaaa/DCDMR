@@ -1,0 +1,255 @@
+﻿body {
+    overflow-y: auto;
+}
+
+.no-per {
+    width: 100%;
+    align-content: center;
+}
+
+.p-noPer {
+    text-align: center;
+    font-size: 20px;
+    color: cornflowerblue;
+}
+
+.pie-charts-container :hover {
+    cursor: pointer;
+}
+
+.paging .active {
+    background: white;
+    color: black;
+    border-color: white;
+}
+
+.btn-disabled {
+    color: #fff;
+    background-color: gray;
+    border-color: gray;
+}
+
+.sorting_asc:after {
+    content: "\f0de";
+    font-family: FontAwesome;
+    float: right;
+}
+
+.sorting_desc:after {
+    content: "\f0dd";
+    font-family: FontAwesome;
+    float: right;
+}
+
+.sorting:after {
+    content: "\f0dc";
+    font-family: FontAwesome;
+    color: #ccc;
+    float: right;
+}
+
+
+
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.center {
+    overflow: hidden;
+    /*white-space: nowrap;*/
+    text-overflow: ellipsis;
+}
+
+.rt_content .table th {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*width: 60%;-txy table*/
+}
+
+.rt_content .table2 th {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*width: 60%;*/
+}
+
+
+.paging2 a {
+    background: #19a97b;
+    border: 1px #139667 solid;
+    color: white;
+    padding: 5px 8px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.table2 tr:nth-child(odd) {
+    background: #f8f8f8;
+}
+
+.rt_content .table2 th {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*width: 60%;*/
+}
+
+.rt_content th, .rt_content td {
+    /*width: 200px;-txy table*/
+    border: 1px solid #ccc;
+}
+
+.paging2 {
+    margin: 8px 0;
+    overflow: hidden;
+    text-align: right;
+}
+
+
+.table2 > tbody > tr > td, .table2 > tbody > tr > th, .table2 > tfoot > tr > td, .table2 > tfoot > tr > th, .table2 > thead > tr > td, .table2 > thead > tr > th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.paging2 .active {
+    background: white;
+    color: black;
+    border-color: white;
+}
+
+.table tr td {
+    /*line-height: 13px !important;*/
+    vertical-align: middle !important; /*-txy 垂直居中*/
+    /*line-height: 30px !important;*/
+}
+
+.fc {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.shadow-bottom {
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.center a {
+    margin-right: 4px;
+}
+
+
+/*layui.css*/
+.layui-btn-normal {
+    background-color: #1E9FFF;
+}
+
+.layui-btn {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    /*background-color: #009688;*/
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#alertify-logs a {
+    cursor: pointer;
+}
+
+.tds-x {
+    width: 60px !important;
+}
+
+.tds-2x {
+    width: 120px !important
+}
+
+.tds-2v {
+    width: 6.25vw !important
+}
+
+.tds-3x {
+    width: 180px !important
+}
+
+.tds-3v {
+    width: 9.375vw !important;
+}
+
+.tds-4x {
+    width: 240px !important
+}
+
+.tds-4v {
+    width: 12.5vw !important;
+}
+
+.tds-5x {
+    width: 300px !important
+}
+
+.tds-90 {
+    width: 90px !important
+}
+
+.tds-75 {
+    width: 75px !important;
+}
+
+.tds-55 {
+    width: 55px !important;
+}
+
+.tds-58 {
+    width: 58px !important;
+}
+
+.tds-65 {
+    width: 65px !important;
+}
+
+.tds-100 {
+    width: 100px !important;
+}
+
+.tds-135 {
+    width: 135px !important;
+}
+
+.tds-135v {
+    width: 7.03125vw !important;
+}
+
+.fa-sdLogo {
+    background: url('../images/sd-logo.ico')
+}
+
+.fa-xaLogo {
+    background: url('../images/Logo.ico')
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}

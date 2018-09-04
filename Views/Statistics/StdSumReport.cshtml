@@ -1,0 +1,305 @@
+﻿
+@{
+    ViewBag.Title = "StdSumReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userLv = new HHTDCDMR.Models.Extend.Res.UserLv();
+    userLv = ViewBag.UserLv;
+    var user2 = userLv.list;
+    var user3 = new List<HHTDCDMR.Models.Extend.Res.UserLv>();
+    if (user2 != null)
+    {
+        user3 = user2.First().list;
+    }
+
+}
+@section js{
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+            //自定义验证规则
+            form.verify({
+                title: function (value) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                }
+                , pass: [/(.+){6,12}$/, '密码必须6到12位']
+                , content: function (value) {
+                    layedit.sync(editIndex);
+                }
+            });
+
+            //监听指定开关
+            form.on('switch(switchTest)', function (data) {
+                layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+            });
+
+            //监听提交
+            form.on('submit(demo1)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
+                return false;
+            });
+
+
+        });
+    </script>
+    <script>
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            //年选择器
+            laydate.render({
+                elem: '#iYear'
+                , type: 'year'
+            });
+            //年月选择器
+            laydate.render({
+                elem: '#iMonth'
+                , type: 'month'
+            });
+
+            //时间选择器
+            laydate.render({
+                elem: '#test5'
+                , format: 'yyyy-MM-dd'
+            });
+        })
+    </script>
+    <script src="~/Current/jquery-form.js"></script>
+    <script src="~/Current/js/Statistics/StdSumReport.js?201808271640"></script>
+    <script src="~/Current/js/chart/line.js?201808271640"></script>
+    <script src="~/Current/js/chart/vertical.js?201808271640"></script>
+    <script src="~/Current/js/AmChart/amcharts.js"></script>
+    <script src="~/Current/js/AmChart/pie.js"></script>
+    <script src="~/Current/js/chart/pie.js"></script>
+}
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .layui-form-item {
+        clear: initial !important;
+    }
+
+    .btn-print {
+        margin-right: 8px;
+    }
+
+    .rt_content {
+        min-height: 360px;
+        width: 33%;
+    }
+
+    .admin_tab_cont {
+        height: 1200px;
+    }
+
+    .zI1 {
+        z-index: 1;
+    }
+
+    .zI2 {
+        z-index: 2;
+    }
+
+    .div-pie {
+        width: 30%;
+        margin-right: 10px;
+        height: 100%;
+    }
+
+    #pie, #piee {
+        width: 150%;
+        height: 530px;
+        margin-top: -10px;
+    }
+</style>
+
+@if (userLv.list != null)
+{
+    if (userLv.lv == "100")
+    {
+        if (user2 != null && user2.Count > 0)
+        {
+            <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv99" autocomplete="off" list="history" value="" />
+            <datalist id="history">
+                @foreach (var item in user2)
+                {
+                    <option data-cid="@item.cid" value="@item.name"></option>
+                }
+            </datalist>
+            if (user3 != null && user3.Count > 0)
+            {
+                <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv98" autocomplete="off" list="history2" value="" />
+                <datalist id="history2">
+                    @foreach (var item in user3)
+                    {
+                        <option data-cid="@item.cid" value="@item.name"></option>
+                    }
+                </datalist>
+            }
+        }
+    }
+    else if (userLv.lv == "99")
+    {
+        if (user2 != null && user2.Count > 0)
+        {
+            <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history" value="" />
+            <datalist id="history">
+                @foreach (var item in user2)
+                {
+                    <option data-cid="@item.cid" value="@item.name"></option>
+                }
+            </datalist>
+        }
+    }
+}
+
+<select class="select custNo layui-input tds-75 fl" id="s-custNo"></select>
+<input type="text" class="layui-input textbox tds-135v fl" id="test5" placeholder="选择日期" lay-key="5" value="2018-03-30">
+<input type="text" class="layui-input textbox tds-135v fl" id="iYear" placeholder="选择年份" lay-key="4" value="2018" style="display:none">
+<input type="text" class="layui-input textbox tds-135v fl" id="iMonth" placeholder="选择年月" lay-key="3" value="2018-03" style="display:none">
+<input type="button" value="查询" class="group_btn btn-search1 fl">
+<div class="layui-form" id="lf-type">
+    <div class="layui-form-item fl" pane="">
+        <div class="layui-input-block">
+            <input class="radion-date" type="radio" name="sex" value="year" title="年报表" checked="">
+            <input class="radion-date" type="radio" name="sex" value="month" title="月报表">
+            <input class="radion-date" type="radio" name="sex" value="day" title="日报表">
+        </div>
+    </div>
+</div>
+
+<select class="select day-startTime layui-input tds-75 fl hidden">
+    <option value="0">开始时间0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+</select>
+
+<button class="btn btn-info tds-90 fr btn-notAlways  btn-getExcel" type="button">
+    导出Excel
+</button>
+<button class="btn btn-info tds-2x fr  btn-notAlways  btn-print" data-printtype="StdSum" type="button">
+    打印当前报表
+</button>
+<div class="fc"></div>
+
+
+<section>
+    <ul class="admin_tab">
+        <li><a class="active">数据表</a></li>
+        <li><a>曲线图</a></li>
+        <li><a>柱形图</a></li>
+    </ul>
+    <div class="admin_tab_cont" style="display:block;">
+        <div class="rt_content fl">
+            <table class="table"></table>
+        </div>
+        <div class="div-pie pie1 fl">
+            <div id="pie">
+            </div>
+        </div>
+        <div class="div-pie pie2 fl">
+            <div id="piee">
+            </div>
+        </div>
+        <div class="fc"></div>
+    </div>
+    <div class="admin_tab_cont">
+        <div class="col-lg-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="title">
+                        Line Chart
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div id="line-chart" class="chart-height"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="admin_tab_cont">
+        <div class="col-lg-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="title">
+                        Vertical Chart
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div id="vertical-chart" class="chart-height" style="padding: 0px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<form id="formid" method="post" enctype="multipart/form-data" action="/recordAjax/GetExcelFile" style="visibility: hidden">
+    <input name="upImg" type="file" id="upImg" onchange="filechange(event)" accept=".xls,.xlsx,.xlsm">
+    <input id="testSubmit" type="submit" value="上传">
+</form>
+
+<script>
+    $(document).ready(function () {
+        //tab
+        $(".admin_tab li a").click(function () {
+            var liindex = $(".admin_tab li a").index(this);
+            tabIndex = liindex;
+            $(this).addClass("active").parent().siblings().find("a").removeClass("active");
+            $(".admin_tab_cont").eq(liindex).fadeIn(150).siblings(".admin_tab_cont").hide();
+            if (liindex == 1) {
+                changeLine();
+                $('.btn-notAlways').hide();
+            }
+            else if (liindex == 2) {
+                changeVertical()
+                $('.btn-notAlways').hide();
+            }
+            else {
+                $('.btn-notAlways').show();
+                changePage(page);
+            }
+        });
+    });
+</script>

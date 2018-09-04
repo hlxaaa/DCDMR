@@ -1,0 +1,15 @@
+﻿/*table固定长度，如果屏幕小，可以拉动*/
+
+.rt_content {
+    padding: 20px;
+    width: 100%;
+    min-height: 100px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
+
+    .rt_content table {
+        /*min-width: 100%;*/
+        width: 2100px;
+        /*width: auto;*/
+    }

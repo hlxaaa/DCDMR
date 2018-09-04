@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Current/css/Config/areaIndex.css?201808271640" rel="stylesheet" />
+@section js{
+    <script src="~/Current/js/Config/areaIndex.js?201808271640"></script>
+}
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+</style>
+
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">区域列表</h2>
+        <button class="btn btn-info tds-2x fr   btn-add" type="button">
+            新增区域
+        </button>
+        @*<a class="fr top_rt_btn add_icon btn-add">新增区域</a>*@
+    </div>
+    <section class="mtb">
+        <input type="text" class="textbox textbox_225 input-search layui-input tds-3x fl" placeholder="区域名称" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table"></table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+        <!--title-->
+        <h3>添加新区域</h3>
+        <!--content-->
+        <div class="pop_cont_input">
+            <ul>
+                <li>
+                    <span>区域名称</span>
+                    <input type="text" placeholder="请输入名称..." class="textbox name" />
+
+                </li>
+            </ul>
+        </div>
+        <!--以pop_cont_text分界-->
+        @*<div class="pop_cont_text">
+                这里是文字性提示信息！
+            </div>*@
+        <!--bottom:operate->button-->
+        <div class="btm_btn">
+            <input type="button" value="确认" class="input_btn trueBtn" />
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->

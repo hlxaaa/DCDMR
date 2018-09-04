@@ -1,0 +1,419 @@
+﻿<style>
+    .div-IsIC, .div-moneyOrVolume {
+        display: none;
+    }
+</style>
+@{
+    ViewBag.Title = "Establish";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var fluidList = new List<DbOpertion.Models.FluidInfo0301>();
+    fluidList = ViewBag.fluidNoList;
+
+    var server = "";
+    server = ViewBag.server;
+
+    var meterTypeList = new List<DbOpertion.Models.MeterType>();
+    meterTypeList = ViewBag.meterTypeList;
+
+    //自己及子孙的账号、员工
+    var sons = new List<DbOpertion.Models.AllInOne_UserInfo>();
+    sons = ViewBag.sons;
+
+    var factoryList = new List<DbOpertion.Models.FactoryType>();
+    factoryList = ViewBag.factoryList;
+
+}
+
+@section js{
+    <script src="~/Current/js/Device/establish.js?201808271640"></script>
+}
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KuFohrOeb8zV8Ely3ivZMVRdZK1xNPgZ"></script>
+
+<style>
+
+    .pop_cont {
+        height: 400px;
+        left: 20%;
+        right: 20%;
+    }
+
+        .pop_cont .pop_cont_input {
+            min-height: 100px;
+            overflow: scroll;
+            height: 307px;
+        }
+
+    .ulColumn2 li {
+        width: 50%;
+        float: left;
+    }
+
+        .ulColumn2 li .select {
+            width: 225px;
+        }
+
+    .btn-SelectDevice {
+        margin-right: 20px;
+    }
+</style>
+
+
+<div class="page_title">
+    <button class="btn btn-info tds-2x fr   btn-SelectCustomer" type="button">
+        选择客户
+    </button>
+    <button class="btn btn-block btn-info tds-2x fr  btn-SelectDevice" type="button">
+        选择设备
+    </button>
+</div>
+<div class="col-lg-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header">
+            <div class="title">
+                添加建点信息
+            </div>
+        </div>
+
+        <div class="widget-body">
+            <div class="form-horizontal no-margin">
+
+                <div class="form-group col-md-6 div-big">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">通讯编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control communicateNo" value="">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">表底读数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control baseVolume" value="0.000">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">客户名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control customerName" value="">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">客户地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control address" value="">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">自定义编号1</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control defineNo1" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">信息发送次数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control AlarmTimes" value="">
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">信息发送间隔</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control AlarmInvTime" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">集中器编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control collectorNo" value="">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control remark" value="">
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">制造号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control deviceNo" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-info btn-save" data-meterno="">添加</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group col-md-6 div-big">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">设备厂家</label>
+                        <div class="col-sm-10">
+                            <select class="form-control factoryNo">
+                                @if (server == "gt")
+                                {
+                                    <option value="03">杭州鸿鹄</option>
+                                }
+                                else
+                                {
+                                    foreach (var item in factoryList)
+                                    {
+                                        <option value="@item.factoryNo">@item.factoryName</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">设备类型</label>
+                        <div class="col-sm-10">
+                            <select class="form-control meterTypeNo">
+                                @if (server == "gt")
+                                {
+                                    foreach (var item in meterTypeList)
+                                    {
+                                        <option value="@item.meterTypeNo">
+                                            @item.meterTypeName
+                                        </option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="11">
+                                        一体机(计量)
+                                    </option>
+                                    <option value="13">
+                                        一体机(计费)
+                                    </option>
+                                    <option value="14">
+                                        标准RTU
+                                    </option>
+                                    <option value="15">
+                                        信东RTU1
+                                    </option>
+                                    <option value="16">
+                                        信东RTU2
+                                    </option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">协议</label>
+                        <div class="col-sm-10">
+                            <select class="form-control ProtocolNo">
+                                @if (server == "gt")
+                                {
+                                    <option value="1002">鸿鹄协议</option>
+                                }
+                                else
+                                {
+                                    <option value="1001">新奥协议</option>
+                                    <option value="1002">标准协议</option>
+                                    <option value="1003">信东协议1</option>
+                                    <option value="1004">信东协议2</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 div-IsIC">
+                        <label class="col-sm-2 control-label">是否使用IC卡</label>
+                        <div class="col-sm-10">
+                            <select class="form-control IsIC ">
+                                <option value="1" selected>使用</option>
+                                <option value="0">不用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 div-moneyOrVolume">
+                        <label class="col-sm-2 control-label">计费方式</label>
+                        <div class="col-sm-10">
+                            <select class="form-control moneyOrVolume">
+                                <option value="0">计费</option>
+                                <option value="1">计量</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">连接模式</label>
+                        <div class="col-sm-10">
+                            <select class="form-control LinkMode">
+                                <option value="1">短连接</option>
+                                <option value="0">长连接</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">通讯模式</label>
+                        <div class="col-sm-10">
+                            <select class="form-control CommMode">
+                                <option value="1">被动</option>
+                                <option value="0">主动</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">价格类型</label>
+                        <div class="col-sm-10">
+                            <select class="form-control fluidNo">
+                                <option value="0000000001">价格类型1</option>
+                                @foreach (var item in fluidList)
+                                {
+                                    <option value="@item.fluidNo">@item.fluidName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">所属账号</label>
+                        <div class="col-sm-10">
+                            <select class="form-control userId">
+                                @foreach (var item in sons)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    @if (sons.Select(p => p.id).Contains(1))
+                    {
+                        <div class="form-group col-md-12">
+                            <label class="col-sm-2 control-label">是否加密</label>
+                            <div class="col-sm-10">
+                                <select class="form-control isEncrypt">
+                                    <option value="0">不加密</option>
+                                    <option value="1">加密</option>
+                                </select>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-2 control-label">口径大小</label>
+                        <div class="col-sm-10">
+                            <select class="form-control caliber">
+                                @{
+                                    var caliberList = new List<string>();
+                                    caliberList = ViewBag.caliberList;
+                                    foreach (var item in caliberList)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="fc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fc"></div>
+
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+        <!--title-->
+        <h3>添加新区域</h3>
+        <!--content-->
+        <div class="pop_cont_input">
+            <table class="table">
+                <tbody>
+
+                    <tr><th class="th-sort sorting" data-sort="name">名称</th><th class="th-sort sorting" data-sort="account">账号</th><th class="th-sort sorting" data-sort="pername">权限</th><th>操作</th></tr>
+
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a class="inner_btn btn-chooseCustomer">选择</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                    <tr><td class="center tds">信东员工201803300952</td><td class="center tds">admin2</td><td class="center tds2">权限1,权限2,权限4,权限6,权限8,权限9,权限12</td><td class="center" data-id="20"><a title="查看订单" class="link_icon btn-detail" target="_blank">v</a><a title="删除" class="link_icon btn-del">d</a></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <!--以pop_cont_text分界-->
+        <!--bottom:operate->button-->
+        <div class="btm_btn">
+
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->
+
+
+<input type="hidden" id="allmap" name="name" value="" />
+
+<script>
+
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("allmap");
+
+
+</script>
+
+<script>
+
+
+    function myFun(result) {
+
+        var cityName = result.name;
+
+        map.setCenter(cityName);   //关于setCenter()可参考API文档---”传送门“
+
+        map.centerAndZoom(cityName, 12);
+        //map.BC.lng
+        //map.BC.lat
+    }
+    var size = new BMap.Size(10, 20);
+    map.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        offset: size
+    }));
+
+
+    var myCity = new BMap.LocalCity();
+    //console.log(myCity)
+    myCity.get(myFun);
+
+
+</script>

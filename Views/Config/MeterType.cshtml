@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "MeterType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Current/css/Config/meterType.css?201808271640" rel="stylesheet" />
+@section js{
+    <script src="~/Current/js/Config/meterType.js?201808271640"></script>
+}
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+</style>
+
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">设备类型列表</h2>
+        <button class="btn btn-info tds-2x fr   btn-add" type="button">
+            新增设备类型
+        </button>
+    </div>
+    <section class="mtb">
+        <input type="text" class="textbox textbox_225 input-search layui-input tds-3x fl" placeholder="设备编号/名称/代码" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table"></table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+        <!--title-->
+        <h3>添加新设备</h3>
+        <!--content-->
+        <div class="pop_cont_input">
+            <ul>
+                <li>
+                    <span>编号</span>
+                    <input type="text" placeholder="请输入编号..." class="textbox no" />
+                </li>
+                <li>
+                    <span>名称</span>
+                    <input type="text" placeholder="请输入名称..." class="textbox name" />
+                </li>
+                <li>
+                    <span>代码</span>
+                    <input type="text" placeholder="请输入代码..." class="textbox code" />
+                </li>
+            </ul>
+        </div>
+        <!--以pop_cont_text分界-->
+        <!--bottom:operate->button-->
+        <div class="btm_btn">
+            <input type="button" value="确认" class="input_btn trueBtn" />
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->

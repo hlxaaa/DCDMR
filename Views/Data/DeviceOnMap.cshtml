@@ -1,0 +1,402 @@
+﻿
+@{
+    ViewBag.Title = "DeviceOnMap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+    <script src="~/Current/js/Data/DeviceOnMap.js?201808271640"></script>
+}
+<script src="~/Current/jquery-ui-1.10.4.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KuFohrOeb8zV8Ely3ivZMVRdZK1xNPgZ"></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+        var time = @ViewBag.time
+</script>
+<style type="text/css">
+    .tools:hover {
+        cursor: pointer;
+    }
+
+    #info .title {
+        width: 100%;
+    }
+
+    #allmap {
+        width: 100%;
+        height: 600px;
+        margin: 0;
+        font-family: "微软雅黑";
+    }
+
+    #main {
+        height: 600px;
+        width: 100%;
+        border-top: 0px;
+    }
+
+
+
+    #cur_city, #no_value {
+        height: 20px;
+        position: absolute;
+        top: 3px;
+        left: 10px;
+    }
+
+        #cur_city .change_city {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+    #level {
+        margin-left: 20px;
+    }
+
+    .logo_img {
+        width: 172px;
+        height: 23px;
+    }
+
+    .search {
+        height: 53px;
+        padding-left: 10px;
+        float: left;
+        margin-left: 15px;
+        margin-right: 30px;
+    }
+
+    .poi {
+        width: 570px;
+        height: 41px;
+        padding-top: 12px;
+        float: left;
+        position: relative;
+    }
+
+    .poi_note {
+        width: 63px;
+        line-height: 26px;
+        float: left;
+    }
+
+    .btn_copy {
+        width: 49px;
+        height: 24px;
+        background: url(../img/btn_cpoy.png) 0px 0px;
+        float: left;
+    }
+
+    .already {
+        width: 52px;
+        line-height: 26px;
+        padding-left: 5px;
+        float: left;
+        color: red;
+        display: none;
+    }
+
+    .info_list {
+        margin-bottom: 5px;
+        clear: both;
+        cursor: pointer;
+    }
+
+    #txt_pannel {
+        height: 500px;
+    }
+
+    #city {
+        width: 356px;
+        height: 433px;
+        padding: 10px;
+        border: 2px solid #D6D6D6;
+        position: absolute;
+        left: 44px;
+        top: 20px;
+        z-index: 999;
+        background: #fff;
+        overflow: auto;
+        color: black;
+    }
+
+        #city .city_class {
+            font-size: 12px;
+            background: #fff;
+        }
+
+        #city .city_container {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        #city .city_container_left {
+            width: 48px;
+            float: left;
+        }
+
+        #city .city_container_right {
+            width: 289px;
+            float: left;
+        }
+
+        #city .close {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            float: right;
+            font-size: 20px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        #city .city_name {
+            line-height: 20px;
+            margin-left: 5px;
+            color: #2F82C4;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+    #curCity {
+        margin-right: 5px;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    #bside_rgiht {
+        width: 100%;
+        float: left;
+        font-size: 12px;
+    }
+
+    #container {
+        width: 100%;
+        height: 520px;
+        border: 5px solid #fff;
+    }
+
+    #no_value {
+        color: red;
+        position: relative;
+        width: 200px;
+    }
+</style>
+<style>
+    .search_t {
+        width: 200px;
+    }
+
+    .div-latlng {
+        margin-left: 50px;
+        margin-bottom: 32px;
+    }
+
+    #div-search {
+        position: absolute;
+        margin-top: 68px;
+        margin-left: 20px;
+        z-index: 9999;
+    }
+
+    #select-son {
+        width: 75px;
+        position: relative;
+    }
+
+    #input-search {
+        width: 230px;
+        margin-left: -16px;
+    }
+
+    #btn-search {
+        margin-left: 141px;
+    }
+
+    #div-search .col-sm-1 {
+        width: 90px;
+    }
+
+    #info {
+        position: absolute;
+        width: 380px;
+        margin-top: 110px;
+        margin-left: 20px;
+    }
+
+    .stylish-lists .dl-horizontal dt {
+        width: 100px;
+    }
+
+    .stylish-lists .dl-horizontal dd {
+        margin-left: 120px;
+    }
+
+    .mapLabel {
+        background-color: white;
+        border: 1px white solid;
+        margin-bottom: 100px;
+        margin-left: -10px;
+        box-shadow: 3px 3px 5px #888888;
+    }
+
+    .mapP {
+        margin-top: 4px;
+    }
+</style>
+
+@{ var fluidList = new List<DbOpertion.Models.FluidInfo0301>();
+    fluidList = ViewBag.fluidList;
+    var sons = new List<HHTDCDMR.Models.Extend.Res.UserId_areaName>();
+    sons = ViewBag.sons;
+}
+
+<div style="" id="riderType3">
+    <div style="height: 53px;" id="div-search">
+        <div class="form-group">
+            <div class="col-sm-1">
+                <select class="form-control" id="select-son">
+                    <option value="0">区域</option>
+                    @{ foreach (var item in sons)
+                        {
+                            <option value="@item.userId">@item.areaName</option>
+                        }}
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="input-search" value="" placeholder="客户名称/地址/制造号/通讯编号">
+            </div>
+            <button type="submit" class="btn btn-info" id="btn-search">搜索</button>
+        </div>
+        <div class="fc"></div>
+    </div>
+    <div id="main" class="fl">
+        <div id="bside_rgiht">
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="title">
+                        地图定位
+                    </div>
+                </div>
+                <div id="allmap"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="info" style="display:none">
+    <div class="col-lg-12 col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <div class="title">
+                    设备信息
+                    <span class="tools fr">
+                        <i class="fa fa-xxx" style="font-size:20px;">×</i>
+                    </span>
+                    <div class="fc"></div>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="form-horizontal no-margin">
+                    <h2 class="text-warning"><i class="fa fa-user"></i> <font class="customerName">童晓翊</font></h2>
+                    <h2 class="text-warning"><i class="fa fa-globe"></i> <font class="address">地址</font></h2>
+                    <div class="stylish-lists">
+                        <dl class="dl-horizontal no-margin">
+                            <dt class="text-info">
+                                制造号
+                            </dt>
+                            <dd class="deviceNo">
+
+                            </dd>
+                            <dt class="text-info">
+                                通讯编号
+                            </dt>
+                            <dd class="communicateNo">
+
+                            </dd>
+                            <dt class="text-info">
+                                总累积量
+                            </dt>
+                            <dd class="StdSum">
+
+                            </dd>
+                            <dt class="text-info">
+                                工况总量
+                            </dt>
+                            <dd class="WorkSum">
+
+                            </dd>
+                            <dt class="text-info">
+                                瞬时流量
+                            </dt>
+                            <dd class="StdFlow">
+
+                            </dd>
+                            <dt class="text-info">
+                                工况流量
+                            </dt>
+                            <dd class="WorkFlow">
+
+                            </dd>
+                            <dt class="text-info">
+                                温度
+                            </dt>
+                            <dd class="Temperature">
+
+                            </dd>
+                            <dt class="text-info">
+                                压力
+                            </dt>
+                            <dd class="Pressure">
+
+                            </dd>
+                            <dt class="text-info">
+                                剩余金额
+                            </dt>
+                            <dd class="RemainMoney">
+
+                            </dd>
+                            <dt class="text-info">
+                                剩余气量
+                            </dt>
+                            <dd class="RemainVolume">
+
+                            </dd>
+                            <dt class="text-info">
+                                供电电压
+                            </dt>
+                            <dd class="PowerVoltage">
+
+                            </dd>
+                            <dt class="text-info">
+                                表具状态
+                            </dt>
+                            <dd class="FMStateMsg">
+
+                            </dd>
+                            <dt class="text-info">
+                                采集时间
+                            </dt>
+                            <dd class="InstantTime">
+
+                            </dd>
+                        </dl>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="fc"></div>
+
+<script>
+       var map = new BMap.Map("allmap");
+        map.enableScrollWheelZoom(true);
+        map.enableAutoResize();
+</script>

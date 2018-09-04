@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "OperRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+    <script src="~/Current/js/Record/OperRecord.js?201808271640"></script>
+}
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+</style>
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">操作记录列表</h2>
+    </div>
+    <section class="mtb">
+        <input type="text" class="textbox textbox_225 input-search input-search input-search layui-input tds-3x fl" placeholder="输入操作者、内容" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table" id="fixtable"><tr><th class="th-sort sorting" data-sort="id">记录ID</th><th class="th-sort sorting" data-sort="content">操作内容</th><th class="th-sort sorting" data-sort="operatorName">操作者</th><th class="th-sort sorting" data-sort="operateTime">操作时间</th></tr></table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+

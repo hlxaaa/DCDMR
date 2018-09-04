@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "FactoryList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section js{
+    <script src="~/Current/js/config/factoryList.js?201808271640"></script>
+}
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+
+<style>
+
+    .tableImg {
+        width: 32px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    .rt_content {
+        padding: 20px;
+        width: 100%;
+        min-height: 100px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+        .rt_content table {
+            /*min-width: 100%;*/
+            width: 1730px;
+            /*width: auto;*/
+        }
+
+    .btn-getExcel {
+        margin-left: 8px;
+    }
+</style>
+
+
+
+<section class="rt_wrap content mCustomScrollbar">
+    <div class="page_title">
+        <h2 class="fl">厂家列表</h2>
+
+        @*<button class="btn btn-info tds-90 fr  btn-getExcel" type="button">
+                导出Excel
+            </button>*@
+
+        <button class="btn btn-block btn-info tds-2x fr  btn-addDevice" type="button">
+            新增厂家
+        </button>
+
+    </div>
+    <section class="mtb">
+        <input type="text" class="textbox textbox_225 input-search  layui-input tds-4v fl" placeholder="厂家名称" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table">
+            <tr>
+                <th class="'+listSort[0]+' tds-3x" data-sort="factoryNo">编号</th>
+                <th class="'+listSort[1]+' tds-3x" data-sort="factoryName">厂家名称</th>
+                <th class="'+listSort[2]+' tds-3x" data-sort="MarkCode">代码</th>
+                <th>操作</th>
+            </tr>
+        </table>
+        <aside class="paging2">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+        <!--title-->
+        <h3>添加新厂家</h3>
+        <!--content-->
+        <div class="pop_cont_input">
+            <ul>
+                <li>
+                    <span>厂家编号</span>
+                    <input type="text" placeholder="请输入编号..." class="textbox factoryNo" />
+                </li>
+                <li>
+                    <span>厂家名称</span>
+                    <input type="text" placeholder="请输入名称..." class="textbox factoryName" />
+                </li>
+                <li>
+                    <span>厂家代码</span>
+                    <input type="text" placeholder="请输入代码..." class="textbox MarkCode" />
+                </li>
+            </ul>
+        </div>
+        <!--以pop_cont_text分界-->
+        @*<div class="pop_cont_text">
+                这里是文字性提示信息！
+            </div>*@
+        <!--bottom:operate->button-->
+        <div class="btm_btn">
+            <input type="button" value="确认" class="input_btn trueBtn" />
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Staff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+</style>
+
+<style>
+    .pop_cont_input li select {
+        border: 1px #d2d2d2 solid;
+        width: 200px;
+        display: inline-block;
+        height: 38px;
+    }
+</style>
+<section class="rt_wrap content mCustomScrollbar">
+    <div class="rt_content">
+        <div class="page_title">
+            <h2 class="fl">员工账号列表</h2>
+            <button class="btn btn-info tds-2x fr   btn-add" type="button">
+                @ViewBag.addName
+            </button>
+        </div>
+        <section class="mtb">
+            <input type="text" class="textbox textbox_225 input-search input-search layui-input tds-3x fl" placeholder="员工名称/开放权限" />
+            <input type="button" value="查询" class="group_btn btn-search" />
+            <div class="fc"></div>
+        </section>
+        <table class="table">
+            <tr></tr>
+        </table>
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
+@section js{
+    <script src="~/Current/js/user/staff.js?201808271640"></script>
+}
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+        <!--title-->
+        <h3>添加新员工</h3>
+        <!--content-->
+        <div class="pop_cont_input">
+            <ul>
+                <li>
+                    <span>名称</span>
+                    <input type="text" placeholder="请输入名称..." class="textbox" id="name" />
+                </li>
+                <li>
+                    <span class="ttl">账号</span>
+                    <input type="text" placeholder="请输入账号..." class="textbox" id="account" />
+                </li>
+                <li>
+                    <span class="ttl">密码</span>
+                    <input type="text" placeholder="输入则重置密码" class="textbox" id="pwd" value="123456" />
+                </li>
+            
+            </ul>
+        </div>
+   
+        <div class="btm_btn">
+            <input type="button" value="确认" class="input_btn trueBtn" />
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->

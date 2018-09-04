@@ -1,0 +1,95 @@
+﻿<style>
+    .notice {
+        font-size: 20px;
+    }
+
+    h1 a {
+        cursor: pointer;
+    }
+</style>
+@{
+    ViewBag.Title = "GuidePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var cno = "";
+    cno = ViewBag.cno;
+
+}
+<script>
+    @*var cno = '@cno';*@
+</script>
+
+<div class="dashboard-container">
+    <div class="container">
+        <!-- Row Start -->
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-md-offset-3">
+
+                <div class="page-not-found center-align-text">
+                    <div class="number" style="font-size:50px;color:#5cb85c">建点成功</div>
+                    <h1>
+                        <a href="/data/meterData" target="_blank">点击查看最新数据</a>
+                    </h1>
+                    <h1>
+                        <a href="/data/hisData?cno=@cno" target="_blank">点击查看历史数据</a>
+                    </h1>
+                    @*<p>
+                            We are fixing it!
+                            <br>
+                            Please come back in a while.
+                        </p>*@
+                </div>
+
+            </div>
+        </div>
+        <!-- Row End -->
+
+    </div>
+</div>
+
+@*<div class="dashboard-wrapper">
+
+        <!-- Left Sidebar Start -->
+        <div class="left-sidebar">
+
+            <!-- Row Start -->
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="title">
+                                数据查看指引
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <img src="~/Current/images/GuidePage/1.png" alt="Alternate Text" />
+                            <div class="notice red">
+                                <p>建点成功后，可以在导航的<strong>【设备信息】</strong>和<strong>【客户信息】</strong>中找到创建过的设备的客户</p>
+                            </div>
+                            <img src="~/Current/images/GuidePage/2.png" alt="Alternate Text" />
+                            <div class="notice green">
+                                <p>在<strong>【设备信息】</strong>的设备列表中，可以通过<strong>【查看详情】</strong>来查看、修改设备详情。点击<strong>【历史数据】</strong>来查看设备的历史数据</p>
+                            </div>
+                            <img src="~/Current/images/GuidePage/3.png" alt="Alternate Text" />
+                            <div class="notice green">
+                                <p>也可以直接在导航的<strong>【数据查询】</strong>中查看实时数据和历史数据</p>
+                            </div>
+                            <img src="~/Current/images/GuidePage/4.png" alt="Alternate Text" />
+                            <div class="notice yellow">
+                                <p><strong>【实时数据】</strong>的数据列表中，可以通过通讯编号等关键词查询设备，查看设备的实时数据</p>
+                            </div>
+                            <img src="~/Current/images/GuidePage/5.png" alt="Alternate Text" />
+                            <div class="notice blue">
+                                <p><strong>【历史数据】</strong>中，可以在下拉框中选择用户，查看对应设备的设备信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row End -->
+
+        </div>
+        <!-- Left Sidebar End -->
+
+    </div>*@
+

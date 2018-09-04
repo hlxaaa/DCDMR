@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userLv = new HHTDCDMR.Models.Extend.Res.UserLv();
+    userLv = ViewBag.UserLv;
+    var user2 = userLv.list;
+    var user3 = new List<HHTDCDMR.Models.Extend.Res.UserLv>();
+    if (user2 != null)
+    {
+        user3 = user2.First().list;
+    }
+
+}
+@section js{
+    <script src="~/Current/js/Alarm/list.js?201808271640"></script>
+}
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+
+    .rt_content {
+        padding: 20px;
+        width: 100%;
+        min-height: 100px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+        .rt_content table {
+            width: 1730px;
+        }
+</style>
+
+
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">历史记录列表</h2>
+    </div>
+    <section class="mtb">
+
+        @if (userLv.list != null)
+        {
+            if (userLv.lv == "100")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv99" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                    if (user3 != null && user3.Count > 0)
+                    {
+                        <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history2" value="" />
+                        <datalist id="history2">
+                            @foreach (var item in user3)
+                            {
+                                <option data-cid="@item.cid" value="@item.name"></option>
+                            }
+                        </datalist>
+                    }
+                }
+            }
+            else if (userLv.lv == "99")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                }
+            }
+        }
+
+        <select class="select meterNo layui-input tds-75 fl">
+            <option value="0">全部</option>
+
+        </select>
+        <input type="text" class="textbox textbox_225 input-search layui-input tds-4x fl" placeholder="通讯编号/报警内容/处理人员/负责人" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table" id="fixtable">
+            <tr>
+                <th class="th-sort sorting" data-sort="siteNo">站点编号</th>
+                <th class="th-sort sorting" data-sort="communicateNo">通讯编号</th>
+                <th class="th-sort sorting" data-sort="deviceNo">制造号</th>
+                <th class="th-sort sorting" data-sort="DevTypeName">设备类型</th>
+                <th class="th-sort sorting" data-sort="AlarmContent">报警内容</th>
+                <th class="th-sort sorting" data-sort="AlarmTime">报警时间</th>
+                <th class="th-sort sorting" data-sort="DealFlag">处理状态</th>
+                <th class="th-sort sorting" data-sort="DealTime">处理时间</th>
+                <th class="th-sort sorting" data-sort="DealOperator">处理人员</th>
+                <th class="th-sort sorting" data-sort="SmsTimes">短信发送次数</th>
+                <th class="th-sort sorting" data-sort="SmsSendTimes">短信已发送次数</th>
+                <th class="th-sort sorting" data-sort="SmsInvTime">短信发送间隔</th>
+                <th class="th-sort sorting" data-sort="Linkman">负责人</th>
+                <th class="th-sort sorting" data-sort="MobileNo">负责人短信号码</th>
+                <th class="">操作</th>
+            </tr>
+        </table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>

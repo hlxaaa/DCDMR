@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = new List<HHTDCDMR.Models.Extend.Res.UserPermission>();
+    list = ViewBag.list;
+
+}
+@section js{
+    <script src="~/Current/js/user/permissoin.js?201808271640"></script>
+}
+<style>
+    .btn-noselect {
+        background-color: #e8e8e8;
+        border-color: #e8e8e8;
+        color: black;
+    }
+</style>
+
+<div class="page_title">
+    @if (list.Count != 0)
+    {
+        <h2 class="fl">@list.First().name 权限管理</h2>
+    }
+    else
+    {<h2 class="fl">员工权限管理</h2>}
+</div>
+
+@{
+    if (list != null)
+    {
+        var list1 = list.OrderBy(p => p.classStr).Where(p => p.type == 1).ToList();
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    远程操作设备权限
+                </div>
+                <div class="panel-body">
+                    <div class="buttons">
+                        @{ foreach (var item in list1)
+                            {
+                                <a href="javascript: void(0);" class="@item.classStr" data-toggle="tooltip" data-placement="top" title="" data-original-title="Top Align" data-perId="@item.perId">@item.pername</a>
+                            }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*var list2 = list.OrderBy(p => p.classStr).Where(p => p.type == 2).ToList();
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    设备增删改
+                </div>
+                <div class="panel-body">
+                    <div class="buttons">
+                        @{ foreach (var item in list2)
+                            {
+                                <a href="javascript: void(0);" class="@item.classStr" data-toggle="tooltip" data-placement="top" title="" data-original-title="Top Align" data-perId="@item.perId">@item.pername</a>
+                            }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        var list3 = list.OrderBy(p => p.classStr).Where(p => p.type == 3).ToList();
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    客户增删改
+                </div>
+                <div class="panel-body">
+                    <div class="buttons">
+                        @{ foreach (var item in list3)
+                            {
+                                <a href="javascript: void(0);" class="@item.classStr" data-toggle="tooltip" data-placement="top" title="" data-original-title="Top Align" data-perId="@item.perId">@item.pername</a>
+                            }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        var list4 = list.OrderBy(p => p.classStr).Where(p => p.type == 4).ToList();
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    基本权限4
+                </div>
+                <div class="panel-body">
+                    <div class="buttons">
+                        @{ foreach (var item in list4)
+                            {
+                                <a href="javascript: void(0);" class="@item.classStr" data-toggle="tooltip" data-placement="top" title="" data-original-title="Top Align" data-perId="@item.perId">@item.pername</a>
+                            }}
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    }
+}
+
+
+

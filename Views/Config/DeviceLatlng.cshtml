@@ -1,0 +1,273 @@
+﻿@{
+    ViewBag.Title = "DeviceLatlng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section js{
+    <script src="~/Current/js/Config/areaDetail.js?201808271640"></script>
+}
+@{
+    var device = new DbOpertion.Models.DeviceInfo();
+    device = ViewBag.device;
+    device.lat = device.lat ?? "";
+    device.lng = device.lng ?? "";
+    var devices = new List<DbOpertion.Models.DeviceView>();
+    devices = ViewBag.devices;
+}
+
+<script src="~/Current/jquery-ui-1.10.4.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=KuFohrOeb8zV8Ely3ivZMVRdZK1xNPgZ"></script>
+
+<style type="text/css">
+    .sr-div {
+        padding: 4px;
+        padding-left: 8px;
+        background-color: white;
+    }
+
+        .sr-div:hover {
+            background-color: #ccc;
+            cursor: pointer;
+        }
+
+    .sr-name {
+        color: #3385ff;
+    }
+
+    .sr-div2 {
+        background-color: #ccc
+    }
+
+    #suggestId {
+        width: calc(100% - 54px)
+    }
+
+    #allmap {
+        width: 100%;
+        height: 600px;
+        margin: 0;
+        font-family: "微软雅黑";
+    }
+
+    #main {
+        height: 600px;
+        width: 100%;
+        border-top: 0px;
+    }
+
+    .divOnMap {
+        position: absolute;
+        margin-top: 50px;
+    }
+
+    #suggestId {
+        margin-bottom: 16px;
+    }
+</style>
+
+
+@{ var fluidList = new List<DbOpertion.Models.FluidInfo0301>();
+    fluidList = ViewBag.fluidList;
+    var sons = new List<HHTDCDMR.Models.Extend.Res.UserId_areaName>();
+    sons = ViewBag.sons;
+}
+
+<div style="" id="riderType3">
+    <div id="main" class="fl">
+        <div id="bside_rgiht">
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="title">
+                        地图定位
+                    </div>
+                </div>
+                <div id="allmap"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 divOnMap">
+
+        <div class="col-md-6">
+            <div id="r-result"><input class="form-control fl" type="text" id="suggestId" value="" style="" placeholder="输入大致位置" /><button type="submit" class="btn btn-info fl" id="btn-searchMap">搜索</button><div class="fc"></div></div>
+            <div id="searchResult">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="widget fl">
+                <div class="widget-header">
+                    <div class="title">
+                        表 @device.meterNo 坐标<small>（点击地图重新获取）</small>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="form-horizontal no-margin">
+                        <div class="form-group">
+                            <label for="userName" class="col-sm-3 control-label">纬度</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="poi_cur" value="@device.lat">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="userName" class="col-sm-3 control-label">经度</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="addr_cur" value="@device.lng">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-10">
+                                <button class="btn btn-info btn-save" data-meterno="@device.meterNo">更新</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fc"></div>
+    </div>
+    <div class="fc"></div>
+</div>
+
+
+<div class="fc"></div>
+
+<script>
+
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("allmap");
+
+    //var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+    //    {
+    //        "input": "suggestId"
+    //        , "location": map
+    //    });
+
+    //ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
+    //    var str = "";
+    //    var _value = e.fromitem.value;
+    //    var value = "";
+    //    if (e.fromitem.index > -1) {
+    //        value = _value.province + _value.city + _value.district + _value.street + _value.business;
+
+    //    }
+    //    str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+    //    value = "";
+    //    if (e.toitem.index > -1) {
+    //        _value = e.toitem.value;
+    //        value = _value.province + _value.city + _value.district + _value.street + _value.business;
+    //    }
+    //    str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+    //    G("searchResultPanel").innerHTML = str;
+    //    console.log(_value.province);
+    //    console.log(_value.city);
+    //    console.log(_value.district);
+    //    console.log(_value.street);
+    //    console.log(_value.business);
+    //    console.log(str);
+    //});
+
+    //var myValue;
+    //ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+    //    var _value = e.item.value;
+    //    myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+    //    G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+    //    setPlace();
+    //    map.setCenter($('#suggestId').val());
+    //});
+
+    function setPlace() {
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun() {
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 18);
+            var marker = new BMap.Marker(pp)
+            marker.setTop(true);
+            //marker.addEventListener("click", function () {
+            //    alert(1);
+            //})
+            map.addOverlay(marker);    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+    map.addEventListener("click", function (e) {
+        if (e.overlay) {
+            //alert(e.overlay.point.lng + "," + e.overlay.point.lat);
+            var lat = e.overlay.point.lat;
+            var lng = e.overlay.point.lng;
+            SetLatLng(lat, lng);
+        } else {
+            //alert(e.point.lng + "," + e.point.lat);
+            var lat = e.point.lat;
+            var lng = e.point.lng;
+            SetLatLng(lat, lng);
+            map.clearOverlays();
+            var point = new BMap.Point(lng, lat);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);
+        }
+
+
+    });
+
+    map.enableScrollWheelZoom(true);
+    map.enableAutoResize();
+
+    function SetLatLng(lat, lng) {
+        $('#poi_cur').val(lat)
+        $('#addr_cur').val(lng)
+    }
+</script>
+
+<script>
+    var lat ='@device.lat';
+    var lng ='@device.lng';
+
+    //console.log(lat);
+
+    function myFun(result) {
+
+        var cityName = result.name;
+
+        map.setCenter(cityName);   //关于setCenter()可参考API文档---”传送门“
+
+        map.centerAndZoom(cityName, 12);
+        //map.BC.lng
+        //map.BC.lat
+        //alert(cityName);
+    }
+    var size = new BMap.Size(10, 20);
+    map.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        offset: size,
+        // 切换城市之间事件
+         //onChangeBefore: function(){
+         //   alert('before');
+         //},
+        // 切换城市之后事件
+        onChangeAfter: function () {
+            //alert(1);
+            //map.setCenter("杭州");
+            // map.centerAndZoom("杭州",12);
+         }
+    }));
+
+    if (lat != "0" && lat != "") {
+        var point = new BMap.Point(lng, lat);
+        map.centerAndZoom(point, 19);
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+    } else {
+        var myCity = new BMap.LocalCity();
+        //console.log(myCity)
+        myCity.get(myFun);
+    }
+</script>

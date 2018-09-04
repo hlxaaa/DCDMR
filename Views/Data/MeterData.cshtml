@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "MeterData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var pIds = new List<int>();
+    pIds = ViewBag.pIds;
+
+    var userLv = new HHTDCDMR.Models.Extend.Res.UserLv();
+    userLv = ViewBag.UserLv;
+    var user2 = userLv.list;
+    var user3 = new List<HHTDCDMR.Models.Extend.Res.UserLv>();
+    if (user2 != null)
+    {
+        user3 = user2.First().list;
+    }
+    var server = "";
+    server = ViewBag.server;
+
+}
+@section js{
+    <script src="~/Current/js/Data/MeterData.js?201808271640"></script>
+}
+<script>
+    var time = @ViewBag.time
+    var server = '@ViewBag.server';
+</script>
+<style>
+    .stateImg {
+        width: 50%;
+        float: left;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+
+    .rt_content {
+        padding: 20px;
+        width: 100%;
+        min-height: 100px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+        .rt_content table {
+            width: 1730px;
+        }
+</style>
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .bg-red {
+        background-color: red;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+</style>
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">实时数据列表</h2>
+        <button class="btn btn-info tds-90 fr  btn-getExcel" type="button">
+            导出Excel
+        </button>
+    </div>
+    <section class="mtb">
+        @if (userLv.list != null)
+        {
+            if (userLv.lv == "100")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv99" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                    if (user3 != null && user3.Count > 0)
+                    {
+                        <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history2" value="" />
+                        <datalist id="history2">
+                            @foreach (var item in user3)
+                            {
+                                <option data-cid="@item.cid" value="@item.name"></option>
+                            }
+                        </datalist>
+                    }
+                }
+            }
+            else if (userLv.lv == "99")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                }
+            }
+        }
+
+        <input type="text" class="textbox textbox_225 input-search layui-input tds-3x fl" placeholder="客户/地址/制造号/通讯编号" autocomplete="off" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table" id="fixTable">
+            <tr>
+                <th class="th-sort sorting" data-sort="LoginState">是否在线</th>
+                <th class="th-sort sorting" data-sort="DeviceNo">制造号</th>
+                <th class="th-sort sorting" data-sort="communicateNo">通讯编号</th>
+                <th class="th-sort sorting" data-sort="customerName">客户名称</th>
+                <th class="th-sort sorting" data-sort="address">客户地址</th>
+                @*@if (server != "")
+        {
+            <th class="th-sort sorting" data-sort="sumTotal">总累计量</th>
+        }
+        else
+        {
+            <th class="th-sort sorting" data-sort="StdSum">总累计量</th>
+        }*@
+                <th class="th-sort sorting" data-sort="sumTotal">总累计量</th>
+                <th class="th-sort sorting" data-sort="StdSum">标况总量</th>
+                <th class="th-sort sorting" data-sort="WorkSum">工况总量</th>
+                <th class="th-sort sorting" data-sort="StdFlow">瞬时流量</th>
+                <th class="th-sort sorting" data-sort="WorkFlow">工况流量</th>
+                <th class="th-sort sorting" data-sort="Temperature">温度</th>
+                <th class="th-sort sorting" data-sort="Pressure">压力</th>
+                <th class="th-sort sorting" data-sort="RemainMoney">剩余金额</th>
+                <th class="th-sort sorting" data-sort="RemainVolume">剩余气量</th>
+                <th class="th-sort sorting" data-sort="PowerVoltage">供电电压</th>
+                <th class="th-sort sorting" data-sort="FMStateMsg">表具状态</th>
+                <th class="th-sort sorting" data-sort="ValveState">阀门状态</th>
+                <th class="th-sort sorting" data-sort="remark">备注</th>
+                <th class="th-sort sorting" data-sort="InstantTime">采集时间</th>
+                <th class="">操作控制</th>
+            </tr>
+        </table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
+
+<!--弹出框效果-->
+<section class="pop_bg">
+    <div class="pop_cont">
+
+        <h3>远程操作</h3>
+
+        <div class="btm_btn oper-deviceNo">
+            正在操作表 xxxx
+        </div>
+        <div class="btm_btn">
+            @if (pIds.Contains(1))
+            {
+                <input type="button" value="开阀" data-valve="1" class="btn btn-info btn-valve " />
+            }
+            else
+            {
+                <input type="button" value="开阀" disabled="disabled" data-valve="1" class="btn btn-disabled btn-valve " />
+            }
+        </div>
+        <div class="btm_btn">
+            @if (pIds.Contains(2))
+            {
+                <input type="button" value="充值" class=" btn btn-info btn-charge" />
+            }
+            else
+            {
+                <input type="button" value="充值" disabled="disabled" class=" btn btn-info btn-charge" />
+            }
+        </div>
+        <div class="btm_btn">
+            <input type="button" value="关闭" class="input_btn falseBtn" />
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->

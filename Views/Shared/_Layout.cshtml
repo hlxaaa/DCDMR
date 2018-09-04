@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>物联网数据采集检测抄表系统</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blue Moon - Responsive Admin Dashboard" />
+    <meta name="keywords" content="Notifications, Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap, bootstrap.gallery" />
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="shortcut icon" href="~/base/img/favicon.ico">
+
+    <link href="~/base/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/base/css/new.css" rel="stylesheet">
+    <link href="~/base/css/charts-graphs.css" rel="stylesheet">
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" type="text/css" href="~/base/css/datepicker.css">
+    <link href="~/base/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Base/css/alertify.core.css" rel="stylesheet" id="toggleCSS" />
+    <link rel="stylesheet" type="text/css" href="~/base/css/style.css?201808271640">
+    <link href="~/Current/js/layui/css/layui2.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+    <link href="~/Current/css/Layout.css?201808271640" rel="stylesheet" />
+    <script src="~/Current/jquery-2.0.0.min.js"></script>
+    <style>
+        #div-alarm {
+            width: 370px;
+            height: 184px;
+            position: absolute;
+            margin-top: -136px;
+            left: 735px;
+        }
+    </style>
+</head>
+@{ var user = new DbOpertion.Models.AllInOne_UserInfo();
+    user = ViewBag.user;
+    var alarmCounts = new List<HHTDCDMR.Models.Extend.Res.Counts>();
+    alarmCounts = ViewBag.AlarmCounts;
+    var count1 = 3;
+    var count2 = 72;
+    var per1 = 4;
+    var per2 = 96;
+    var alarmCount = 9999999;
+    if (alarmCounts[0].counts != "0" || alarmCounts[1].counts != "0")
+    {
+        count1 = Convert.ToInt32(alarmCounts[0].counts);
+        count2 = Convert.ToInt32(alarmCounts[1].counts);
+        alarmCount = count1 + count2;
+        per1 = count1 * 100 / (count1 + count2);
+        per2 = count2 * 100 / (count1 + count2);
+    }
+    else
+    {
+        alarmCounts[0].counts = "3";
+        alarmCounts[1].counts = "72";
+    }
+
+    var lastAlarmId = 0;
+    lastAlarmId = ViewBag.lastAlarmId;
+
+
+}
+<script>
+    var alarmCount=@alarmCount
+
+</script>
+<script>
+    var lastAlarmId=@lastAlarmId
+
+</script>
+<body>
+    <!-- Header Start -->
+    <header>
+        <div href="" class="logo" style="color:rgb(179,179,179);font-size:18px">
+            <img src="~/Current/images/Logo.ico" alt="Logo" />@user.name
+        </div>
+        <div class="pull-right">
+            <ul id="mini-nav" class="clearfix">
+                <li class="list-box dropdown">
+                    <ul class="dropdown-menu stats-widget clearfix">
+                        <li>
+                            <h5 class="text-success">$37895</h5>
+                            <p>Revenue <span class="text-success">+2%</span></p>
+                            <div class="progress progress-mini">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h5 class="text-warning">47,892</h5>
+                            <p>Downloads <span class="text-warning">+39%</span></p>
+                            <div class="progress progress-mini">
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <span class="sr-only">40% Complete (warning)</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h5 class="text-danger">28214</h5>
+                            <p>Uploads <span class="text-danger">-7%</span></p>
+                            <div class="progress progress-mini">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <span class="sr-only">40% Complete (danger)</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-box dropdown">
+                    <ul class="dropdown-menu server-activity">
+                        <li>
+                            <p><i class="fa fa-flag text-info"></i> Pending request<span class="time">3 hrs</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-fire text-warning"></i> Server Crashed<span class="time">3mins</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-user text-success"></i> 3 New users<span class="time">1 min</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-bell text-danger"></i>9 pending requests<span class="time">5 min</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-plane text-info"></i> Performance<span class="time">25 min</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-envelope text-warning"></i>12 new emails<span class="time">25 min</span></p>
+                        </li>
+                        <li>
+                            <p><i class="fa fa-cog icon-spin text-success"></i> Location settings<span class="time">4 hrs</span></p>
+                        </li>
+                    </ul>
+                </li>
+                <li class="list-box user-profile">
+                    <a id="drop7" href="#" role="button" class="dropdown-toggle user-avtar" data-toggle="dropdown">
+                        <img src="~/Current/images/loginUser.jpg" alt="Bluemoon User">
+                    </a>
+                    <ul class="dropdown-menu server-activity">
+
+                        <li>
+                            <div class="demo-btn-group clearfix">
+                                <button onclick="logout()" class="btn btn-danger btn-logout">
+                                    退出登录
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!-- Header End -->
+    <!-- Main Container start -->
+    <div class="dashboard-container">
+        @{
+            var lay = new HHTDCDMR.Models.Extend.Res.LayoutIndex();
+            lay = ViewBag.lay;
+        }
+        <div class="container">
+            <!-- Top Nav Start -->
+            <div id='cssmenu'>
+                <ul>
+                    @{ if (lay.activeName == "基础信息")
+                        {
+                            <li class='active'>
+                                <a><i class="fa fa-table"></i>基础信息</a>
+                                <ul>
+                                    <li>
+                                        <a href='/device/index'>
+                                            设备信息
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/device/customerList'>
+                                            客户信息
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/device/establish'>
+                                            建点
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a><i class="fa fa-table"></i>基础信息</a>
+                                <ul>
+                                    <li>
+                                        <a href='/device/index'>
+                                            设备信息
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/device/customerList'>
+                                            客户信息
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/device/establish'>
+                                            建点
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        } }
+                    @{ if (lay.activeName == "数据查询")
+                        {
+                            <li class='active'>
+                                <a href='#'><i class="fa fa-table"></i>数据查询</a>
+                                <ul>
+                                    <li>
+                                        <a href='/data/meterData'>
+                                            实时数据
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/data/deviceOnMap'>
+                                            地图监控
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='~/data/hisdata'>
+                                            历史数据
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='#'><i class="fa fa-table"></i>数据查询</a>
+                                <ul>
+                                    <li>
+                                        <a href='/data/meterData'>
+                                            实时数据
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='/data/deviceOnMap'>
+                                            地图监控
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='~/data/hisdata'>
+                                            历史数据
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        } }
+
+
+                    @{ if (lay.activeName == "数据分析")
+                        {
+                            <li class='active'>
+                                <a href='#'><i class="fa fa-table"></i>数据分析</a>
+                                <ul>
+                                    <li>
+                                        <a href='~/statistics/chargeReport'>
+                                            充值统计
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='~/statistics/StdSumReport'>
+                                            用量统计
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='#'><i class="fa fa-table"></i>数据分析</a>
+                                <ul>
+                                    <li>
+                                        <a href='~/statistics/chargeReport'>
+                                            充值统计
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href='~/statistics/StdSumReport'>
+                                            用量统计
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        } }
+
+
+
+
+                    @{ if (lay.activeName == "报警信息")
+                        {
+                            <li class='active'>
+                                <a href='#'><i class="fa fa-table"></i>报警信息</a>
+                                <ul>
+                                    <li>
+                                        <a href='/alarm/list'>
+                                            历史记录
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='#'><i class="fa fa-table"></i>报警信息</a>
+                                <ul>
+                                    <li>
+                                        <a href='/alarm/list'>
+                                            历史记录
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        } }
+
+
+                    @{ if (lay.activeName == "账号管理")
+                        {
+                            <li class='active'>
+                                <a href='#'><i class="fa fa-table"></i>账号管理</a>
+                                <ul>
+                                    <li>
+                                        <a href='/user/userDetail'>
+                                            个人信息
+                                        </a>
+                                    </li>
+                                    @{ if (user.level > 98)
+                                        {
+                                            <li>
+                                                <a href='/user/index'>
+                                                    子账号管理
+                                                </a>
+                                            </li>
+                                        }
+                                        if (user.level > 97)
+                                        {
+                                            <li>
+                                                <a href='/user/staff'>
+                                                    员工管理
+                                                </a>
+                                            </li>
+                                        } }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='#'><i class="fa fa-table"></i>账号管理</a>
+                                <ul>
+                                    <li>
+                                        <a href='/user/userDetail'>
+                                            个人信息
+                                        </a>
+                                    </li>
+                                    @{ if (user.level > 98)
+                                        {
+                                            <li>
+                                                <a href='/user/index'>
+                                                    子账号管理
+                                                </a>
+                                            </li>
+                                        }
+                                        if (user.level > 97)
+                                        {
+                                            <li>
+                                                <a href='/user/staff'>
+                                                    员工管理
+                                                </a>
+                                            </li>
+                                        } }
+                                </ul>
+                            </li>
+                        } }
+
+                    @{ if (lay.activeName == "操作记录")
+                        {
+                            <li class='active'>
+                                <a href='/record/operRecord'><i class="fa fa-table"></i>操作记录</a>
+                                <ul>
+                                    <li>
+                                        <a href='/record/operRecord'>
+                                            操作记录
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='/record/operRecord'><i class="fa fa-table"></i>操作记录</a>
+                                <ul>
+                                    <li>
+                                        <a href='/record/operRecord'>
+                                            操作记录
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        } }
+
+                    @{ if (lay.activeName == "配置")
+                        {
+                            <li class='active'>
+                                <a href='#'><i class="fa fa-table"></i>基础配置</a>
+                                <ul>
+                                    <li>
+                                        <a href='/config/index'>
+                                            区域管理
+                                        </a>
+                                    </li>
+                                    @{ if (user.level == 100)
+                                        {
+                                            @*<li>
+                                                    <a href='/config/metertype'>
+                                                        设备类型管理
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href='/config/protocol'>
+                                                        协议管理
+                                                    </a>
+                                                </li>*@
+                                            <li>
+                                                <a href='/config/FactoryList'>
+                                                    厂家管理
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href='/config/config'>
+                                                    参数设置
+                                                </a>
+                                            </li>
+                                        } }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class=''>
+                                <a href='#'><i class="fa fa-table"></i>基础配置</a>
+                                <ul>
+                                    <li>
+                                        <a href='/config/index'>
+                                            区域管理
+                                        </a>
+                                    </li>
+                                    @{ if (user.level == 100)
+                                        {
+                                            @*<li>
+                                                    <a href='/config/metertype'>
+                                                        设备类型管理
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href='/config/protocol'>
+                                                        协议管理
+                                                    </a>
+                                                </li>*@
+                                            <li>
+                                                <a href='/config/FactoryList'>
+                                                    厂家管理
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href='/config/config'>
+                                                    参数设置
+                                                </a>
+                                            </li>
+                                        } }
+                                </ul>
+                            </li>
+                        } }
+                </ul>
+            </div>
+
+            <div id="div-alarm">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="pie-charts-container">
+                            <div class="pie-chart">
+                                <div class="chart1" data-percent="@per1">
+                                    @alarmCounts[0].counts
+                                </div>
+                                <p class="name">
+                                    已处理警报
+                                </p>
+                            </div>
+                            <div class="pie-chart hidden-tablet">
+                                <div class="chart5" data-percent="@per2">
+                                    @alarmCounts[1].counts
+                                </div>
+                                <p class="name">
+                                    警报
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Top Nav End -->
+            <!-- Sub Nav End -->
+            <div class="sub-nav hidden-sm hidden-xs">
+                <ul>
+                    <li><a href="" class="@lay.listNav[0].classStr">@lay.listNav[0].name</a></li>
+
+                    @{for (int i = 1; i < lay.listNav.Count(); i++)
+                        {
+                            <li class="hidden-sm hidden-xs">
+                                <a href="@lay.listNav[i].url" class="@lay.listNav[i].classStr">@lay.listNav[i].name</a>
+                            </li>
+                        }}
+                </ul>
+            </div>
+            <!-- Sub Nav End -->
+            <!-- Dashboard Wrapper Start -->
+            <div class="dashboard-wrapper-lg">
+
+                @RenderBody()
+
+            </div>
+            <!-- Dashboard Wrapper End -->
+            <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;display:none">
+                <button data-method="offset" data-type="rb" class="layui-btn layui-btn-normal">右下弹出1</button>
+            </div>
+            <footer>
+                <p> 　</p>
+
+            </footer>
+
+        </div>
+    </div>
+
+    <!--加载-->
+    <section class="loading_area">
+        <div class="loading_cont">
+            <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="loading_txt"><mark>数据正在加载，请稍后！</mark></div>
+        </div>
+    </section>
+
+
+    <!-- Main Container end -->
+
+    <script src="~/base/js/jquery.js">
+    </script>
+    <script src="~/base/js/bootstrap.min.js"></script>
+    <script src="~/base/js/jquery.scrollUp.js">
+    </script>
+
+    <script src="~/base/js/jquery-ui-v1.10.3.js"></script>
+
+    @*<script src="~/base/js/justgage/raphael.2.1.0.min.js"></script>*@
+
+    <!-- Flot Charts -->
+    <script src="~/base/js/flot/jquery.flot.js"></script>
+    <script src="~/base/js/flot/jquery.flot.orderBar.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.stack.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.resize.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/base/js/menu.js"></script>
+    <script src="~/base/js/custom-index2.js"></script>
+    <script src="~/Current/layer/layer.js"></script>
+    <script src="~/Current/js/layui/layui.js"></script>
+    <script src="~/Base/js/alertify.min.js"></script>
+    <script src="~/Current/js/ajax.js?201808271640"></script>
+    <script src="~/Current/js/Layout.js?201808271640"></script>
+    <script src="~/Current/js/common/setInterval.js?201808271640"></script>
+    <script src="~/Base/js/jquery.easy-pie-chart.js"></script>
+    <script src="~/Base/js/sparkline.js"></script>
+
+    <script src="~/Current/js/common/tableFixed.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            pie_chart();
+        });
+
+        function pie_chart() {
+            $(function () {
+                //create instance
+                $('.chart1').easyPieChart({
+                    animate: 1000,
+                    barColor: '#74b749',
+                    trackColor: '#dddddd',
+                    scaleColor: '#74b749',
+                    size: 140,
+                    lineWidth: 6,
+                });
+
+            });
+
+            $(function () {
+                //create instance
+                $('.chart5').easyPieChart({
+                    animate: 2000,
+                    barColor: '#F63131',
+                    trackColor: '#dddddd',
+                    scaleColor: '#F63131',
+                    size: 140,
+                    lineWidth: 6,
+                });
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+        //ScrollUp
+        $(function () {
+            $.scrollUp({
+                scrollName: 'scrollUp', // Element ID
+                topDistance: '300', // Distance from top before showing element (px)
+                topSpeed: 300, // Speed back to top (ms)
+                animation: 'fade', // Fade, slide, none
+                animationInSpeed: 400, // Animation in speed (ms)
+                animationOutSpeed: 400, // Animation out speed (ms)
+                scrollText: 'Top', // Text for element
+                activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+            });
+        });
+    </script>
+
+    @RenderSection("js", required: false)
+
+
+
+
+</body>
+</html>

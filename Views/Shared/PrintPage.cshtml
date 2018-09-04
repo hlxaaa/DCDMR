@@ -1,0 +1,146 @@
+﻿@{
+    Layout = null;
+    var arr1 = new List<string>();
+    var arr2 = new List<List<string>>();
+    arr1 = ViewBag.arr1;
+    arr2 = ViewBag.arr2;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/base/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/base/css/new.css" rel="stylesheet">
+    <link href="~/base/css/charts-graphs.css" rel="stylesheet">
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" type="text/css" href="~/base/css/datepicker.css">
+    <link href="~/base/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Base/css/alertify.core.css" rel="stylesheet" id="toggleCSS" />
+
+    @RenderSection("css", required: false)
+
+    <script src="~/Current/jquery-2.0.0.min.js"></script>
+    <style>
+        tr {
+            border-bottom: 1px black solid;
+        }
+
+        body {
+            background: white;
+        }
+
+        .tr1 {
+            font-size: 16px;
+        }
+
+        h1 {
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    @RenderBody()
+    <h1 style="text-align:center;">@ViewBag.printTitle</h1>
+    <section>
+        <div class="admin_tab_cont" style="display:block;">
+            <div class="rt_content">
+                <table class="table" border=1>
+                    <tbody>
+                        <tr class="tr1">
+                            @for (int i = 0; i < arr1.Count; i++)
+                            {
+                                <th class="" width="20%">@arr1[i]</th>
+                            }
+                        </tr>
+                        @for (int i = 0; i < arr2.Count; i++)
+                        {
+                            <tr class="tr1">
+                                @for (int j = 0; j < arr2[i].Count; j++)
+                                {
+                                    <th>@arr2[i][j]</th>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/base/js/jquery.js"></script>
+    <script src="~/base/js/bootstrap.min.js"></script>
+    <script src="~/base/js/jquery.scrollUp.js"></script>
+
+    <script src="~/base/js/jquery-ui-v1.10.3.js"></script>
+
+    <script src="~/base/js/justgage/raphael.2.1.0.min.js"></script>
+
+    <!-- Flot Charts -->
+    <script src="~/base/js/flot/jquery.flot.js"></script>
+    <script src="~/base/js/flot/jquery.flot.orderBar.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.stack.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/base/js/flot/jquery.flot.resize.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/base/js/menu.js"></script>
+    <script src="~/base/js/custom-index2.js"></script>
+    <script src="~/Current/layer/layer.js"></script>
+    <script src="~/Current/js/layui/layui.js"></script>
+    <script src="~/Base/js/alertify.min.js"></script>
+    <script src="~/Current/js/ajax.js?201808271640"></script>
+    <script src="~/Current/js/Layout.js?201808271640"></script>
+
+    <script type="text/javascript">
+        //ScrollUp
+        $(function () {
+            $.scrollUp({
+                scrollName: 'scrollUp', // Element ID
+                topDistance: '300', // Distance from top before showing element (px)
+                topSpeed: 300, // Speed back to top (ms)
+                animation: 'fade', // Fade, slide, none
+                animationInSpeed: 400, // Animation in speed (ms)
+                animationOutSpeed: 400, // Animation out speed (ms)
+                scrollText: 'Top', // Text for element
+                activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+            });
+        });
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            window.print();
+        })
+
+        //arr1是列头集合，arr2是每行的集合，每行里面也是所有列的集合
+        function createTable(arr1, arr2) {
+
+          
+            $('tbody tr').remove();
+            var h1 = `<tr class="tr1">`;
+            for (var i = 0; i < arr1.length; i++) {
+                h1 += `<th>${arr1[i]}</th>`
+            }
+            h1 += `</tr>`
+       
+            var h2 = '';
+          
+            for (var i = 0; i < arr2.length; i++) {
+                h2 += `<tr class="tr1">`
+                for (var j = 0; j < arr2[i].length; j++) {
+                    h2 += `<th>${arr2[i][j]}</th>`
+                }
+                h2 += `</tr>`
+            }
+          
+            $('tbody').append(h1);
+            $('tbody').append(h2);
+        }
+    </script>
+</body>
+</html>

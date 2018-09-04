@@ -1,0 +1,18 @@
+﻿
+.rt_content {
+    padding: 20px;
+    width: 100%;
+    min-height: 100px;
+    overflow: scroll;
+    border: 1px solid #ccc;
+}
+
+    .rt_content table {
+        /*width: 3755px;*/
+        width:auto;
+    }
+
+    .rt_content th, .rt_content td {
+        /*width: 200px;-txy table*/
+        border: 1px solid #ccc;
+    }

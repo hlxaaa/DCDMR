@@ -1,0 +1,279 @@
+﻿
+@{
+    ViewBag.Title = "HisData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userLv = new HHTDCDMR.Models.Extend.Res.UserLv();
+    userLv = ViewBag.UserLv;
+    var user2 = userLv.list;
+    var user3 = new List<HHTDCDMR.Models.Extend.Res.UserLv>();
+    if (user2 != null)
+    {
+        user3 = user2.First().list;
+    }
+    var cno = "0";
+    cno = ViewBag.cno;
+
+    var now = DateTime.Now;
+    var year = now.Year;
+    var month = now.Month;
+    var day = now.Day;
+    var start = (new DateTime(year, month, day)).ToString("yyyy-MM-dd HH:mm:ss");
+    var end = now.ToString("yyyy-MM-dd HH:mm:ss");
+
+    var yStart = (new DateTime(year, 1, 1)).ToString("yyyy");
+    var yEnd = (new DateTime(year, 1, 1).AddYears(1)).ToString("yyyy");
+
+    var mStart = (new DateTime(year, month, 1)).ToString("yyyy-MM");
+    var mEnd = (new DateTime(year, month, 1).AddMonths(1)).ToString("yyyy-MM");
+
+    var dStart = (new DateTime(year, month, day, 0, 0, 0)).ToString("yyyy-MM-dd HH:mm:ss");
+    var dEnd = (new DateTime(year, month, day, 0, 0, 0).AddDays(1)).ToString("yyyy-MM-dd HH:mm:ss");
+}
+
+@section js{
+    <script>
+        var yStart ='@yStart';
+        var mStart ='@mStart';
+         var dStart ='@dStart';
+
+        var yEnd ='@yEnd';
+        var mEnd ='@mEnd';
+           var dEnd ='@dEnd';
+
+        var cno = '@cno';
+    </script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+            //自定义验证规则
+            form.verify({
+                title: function (value) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                }
+                , pass: [/(.+){6,12}$/, '密码必须6到12位']
+                , content: function (value) {
+                    layedit.sync(editIndex);
+                }
+            });
+
+            //监听指定开关
+            form.on('switch(switchTest)', function (data) {
+                layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+            });
+
+            //监听提交
+            form.on('submit(demo1)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
+                return false;
+            });
+
+
+        });
+    </script>
+
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //年选择器
+            laydate.render({
+                elem: '#yStart'
+                , type: 'year'
+            });
+
+            //年选择器
+            laydate.render({
+                elem: '#yEnd'
+                , type: 'year'
+            });
+
+            //年月选择器
+            laydate.render({
+                elem: '#mStart'
+                , type: 'month'
+            });
+            //年月选择器
+            laydate.render({
+                elem: '#mEnd'
+                , type: 'month'
+            });
+
+            //时间选择器
+            laydate.render({
+                elem: '#test5'
+                , type: 'datetime'
+            });
+            //时间选择器
+            laydate.render({
+                elem: '#test6'
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#test7'
+                , type: 'year'
+            });
+        })
+    </script>
+    <script src="~/Current/js/Data/HisData.js?201808271640"></script>
+}
+
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+
+
+<style>
+    .table {
+        font-size: 12px;
+    }
+
+    .layui-form-item {
+        clear: initial !important;
+    }
+
+    .s-day {
+        width: 30px;
+    }
+
+    .rt_content {
+        padding: 20px;
+        width: 100%;
+        min-height: 100px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+        .rt_content table {
+            min-width: 100%;
+            width: 1730px;
+            width: auto;
+        }
+</style>
+
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">历史数据</h2>
+        <button class="btn btn-info tds-90 fr   btn-getExcel" type="button">
+            导出Excel
+        </button>
+    </div>
+    <section class="mtb">
+
+        @if (userLv.list != null)
+        {
+            if (userLv.lv == "100")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv99" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                    if (user3 != null && user3.Count > 0)
+                    {
+                        <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv98" autocomplete="off" list="history2" value="" />
+                        <datalist id="history2">
+                            @foreach (var item in user3)
+                            {
+                                <option data-cid="@item.cid" value="@item.name"></option>
+                            }
+                        </datalist>
+                    }
+                }
+            }
+            else if (userLv.lv == "99")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                }
+            }
+        }
+
+        <select class="select meterNo fl layui-input tds-90"></select>
+        <input type="text" class="layui-input textbox tds-135 fl  day" id="test5" placeholder="开始时间" lay-key="5" value="@start">
+        <input type="text" class="layui-input textbox tds-135 fl  year" id="yStart" placeholder="开始时间" lay-key="1" value="@yStart" style="display:none">
+        <input type="text" class="layui-input textbox tds-135 fl  month" id="mStart" placeholder="开始时间" lay-key="2" value="@mStart" style="display:none">
+
+        <input type="text" class="layui-input textbox tds-135 fl  day" id="test6" placeholder="结束时间" lay-key="6" value="@end">
+        <input type="text" class="layui-input textbox tds-135 fl  year" id="yEnd" placeholder="结束时间" lay-key="3" value="@yEnd" style="display:none">
+        <input type="text" class="layui-input textbox tds-135 fl  month" id="mEnd" placeholder="结束时间" lay-key="4" value="@mEnd" style="display:none">
+
+        @*<input type="text" class="textbox textbox_225 input-search tds-4v layui-input fl" placeholder="输入客户名称/地址/通讯编号/制造号" />*@
+        <input type="button" value="查询" class="group_btn btn-search fl" />
+        <div class="layui-form">
+            <div class="layui-form-item fl" pane="">
+                <div class="layui-input-block">
+                    <input class="radion-date" type="radio" name="sex" value="year" title="当年">
+                    <input class="radion-date" type="radio" name="sex" value="month" title="当月">
+                    <input class="radion-date" type="radio" name="sex" value="day" title="当日" checked="">
+                </div>
+            </div>
+        </div>
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table" id="fixtable">
+            <tr>
+                <th class=" " data-sort="deviceNo">制造号</th>
+                <th class="th-sort sorting" data-sort="communicateNo">通讯编号</th>
+                <th class="th-sort sorting" data-sort="StdSum">总累计量</th>
+                <th class="th-sort sorting" data-sort="WorkSum">工况总量</th>
+                <th class="th-sort sorting" data-sort="StdFlow">瞬时流量</th>
+                <th class="th-sort sorting" data-sort="WorkFlow">工况流量</th>
+                <th class="th-sort sorting" data-sort="Temperature">温度</th>
+                <th class="th-sort sorting" data-sort="Pressure">压力</th>
+                <th class="th-sort sorting" data-sort="RemainMoney">剩余金额</th>
+                <th class="th-sort sorting" data-sort="RemainVolume">剩余气量</th>
+                <th class="th-sort sorting" data-sort="PowerVoltage">供电电压</th>
+                <th class="th-sort sorting" data-sort="FMStateMsg">表具状态</th>
+                <th class="" data-sort="customerName">客户名称</th>
+                <th class="" data-sort="address">客户地址</th>
+                <th class="th-sort sorting" data-sort="InstantTime">采集时间</th>
+            </tr>
+        </table>
+
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>

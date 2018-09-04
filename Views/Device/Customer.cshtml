@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var pIds = new List<int>();
+    //pIds = ViewBag.pIds;
+}
+@section js{
+    <script src="~/Current/js/Device/customer.js?201808271640"></script>
+}
+<script>
+    var isAdd=@ViewBag.isAdd
+</script>
+<style>
+    .ulColumn2 li {
+        width: 50%;
+        float: left;
+    }
+
+        .ulColumn2 li .select {
+            width: 225px;
+        }
+
+    .btn-delCust {
+        margin-bottom: 8px;
+        margin-right: 16px;
+    }
+</style>
+@{
+    var customer = new DbOpertion.Models.CustomerView();
+    customer = ViewBag.customer;
+}
+@if (customer != null)
+{
+    <button data-customerno="@customer.customerNo" class="btn btn-block btn-danger tds-2x fr  btn-delCust" type="button">
+        删除
+    </button>
+}
+<div class="col-lg-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header">
+            @{ if (customer == null)
+                {
+                    <div class="title">
+                        新建客户
+                    </div>
+                }
+                else
+                {
+                    <div class="title">
+                        编辑客户
+                    </div>
+                } }
+        </div>
+        @{ if (customer != null)
+            {
+                if (customer.customerNo != null)
+                {
+                    <div class="widget-body">
+                        <div class="form-horizontal no-margin">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">客户编号</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control customerNo" value="@customer.customerNo">
+                                </div>
+                                <label class="col-sm-1 control-label">合同号</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control contractNo" value="@customer.contractNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">证件号码</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control certNo" value="@customer.certNo">
+                                </div>
+                                <label class="col-sm-1 control-label">移动电话</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control mobileNo" value="@customer.mobileNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">客户类型</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control customerType">
+                                        @{ if (customer.customerType == 0)
+                                            {
+                                                <option value="0" selected>居民</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="0">居民</option>
+                                            } }
+                                        @{ if (customer.customerType == 1)
+                                            {
+                                                <option value="1" selected>公建</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">公建</option>
+                                            } }
+                                        @{ if (customer.customerType == 2)
+                                            {
+                                                <option value="2" selected>工业</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="2">工业</option>
+                                            } }
+                                        @{ if (customer.customerType == 3)
+                                            {
+                                                <option value="3" selected>商福</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="3">商福</option>
+                                            } }
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 control-label">客户名称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control customerName" value="@customer.customerName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">固定电话</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control telNo" value="@customer.telNo">
+                                </div>
+                                <label class="col-sm-1 control-label">地址</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control address" value="@customer.address">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">自定义编号1</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control defineNo1" value="@customer.defineNo1">
+                                </div>
+                                <label class="col-sm-1 control-label">自定义编号2</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control defineNo2" value="@customer.defineNo2">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">自定义编号3</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control defineNo3" value="@customer.defineNo3">
+                                </div>
+                                <label class="col-sm-1 control-label">备注</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control remark" value="@customer.remark">
+                                </div>
+                            </div>
+                            @if (customer.useState == 1)
+                            {
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">制造号</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control " readonly value="@customer.deviceNo">
+                                    </div>
+                                    <label class="col-sm-1 control-label">通讯编号</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control " readonly value="@customer.communicateNo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">设备类型</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control " readonly value="@customer.meterTypeName">
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-10">
+                                    <button class="btn btn-info btn-save" data-meterno="">更新</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>该客户不存在，或您没权限查看</p>
+                }
+            }
+            else
+            {
+                <div class="widget-body">
+                    <div class="form-horizontal no-margin">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">客户编号</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control customerNo" value="@ViewBag.customerNo">
+                            </div>
+                            <label class="col-sm-1 control-label">合同号</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control contractNo" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">证件号码</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control certNo" value="">
+                            </div>
+                            <label class="col-sm-1 control-label">移动电话</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control mobileNo" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">客户类型</label>
+                            <div class="col-sm-4">
+                                <select class="form-control customerType">
+                                    <option value="0" selected>居民</option>
+                                    <option value="1">公建</option>
+                                    <option value="2">工业</option>
+                                    <option value="3">商福</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 control-label">客户名称</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control customerName" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">固定电话</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control telNo" value="">
+                            </div>
+                            <label class="col-sm-1 control-label">地址</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control address" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">自定义编号1</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defineNo1" value="">
+                            </div>
+                            <label class="col-sm-1 control-label">自定义编号2</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defineNo2" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">自定义编号3</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defineNo3" value="">
+                            </div>
+                            <label class="col-sm-1 control-label">备注</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control remark" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-10">
+                                @{ if (customer != null)
+                                    {
+                                        <button class="btn btn-info btn-save" data-meterno="">更新</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-info btn-save" data-meterno="">添加</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

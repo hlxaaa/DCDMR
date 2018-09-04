@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "PrintPage";
+    Layout = "~/Views/Shared/PrintPage.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        var arr1 = ['时间', '使用气量']
+        var arr4 = ['时间', '充值气量']
+        //var arr4 = ['时间', '充值气量', '充值金额']
+        var arr3 = [1, 2]
+        var arr2 = new Array();
+
+        arr2.push(arr3);
+        window.print();
+    })
+</script>

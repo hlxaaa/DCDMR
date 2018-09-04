@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "DeviceConfig";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+    <script src="~/Current/js/Alarm/DeviceConfig.js?201808271640"></script>
+}
+
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+
+<style>
+    .DoorAlarm {
+        width: 10%;
+        border-radius: 4px;
+    }
+
+    .layui-form select {
+        display: block;
+    }
+
+    .layui-input-inline {
+        width: calc(40% - 60px) !important;
+    }
+
+    .layui-inline {
+        width: 40%;
+    }
+
+    .second-inline {
+        margin-left: 5%;
+    }
+
+    .widget {
+        font-size: 12px;
+    }
+
+        .widget input {
+            border-radius: 4px;
+        }
+
+    .layui-form-label {
+        width: 140px;
+        font-weight: bold;
+    }
+</style>
+@{
+    var device = new DbOpertion.Models.DeviceInfo();
+    device = ViewBag.device;
+}
+
+<div class="col-lg-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header">
+            <div class="title">
+                表 @device.meterNo 报警值设置
+            </div>
+        </div>
+
+        @{ if (device.meterNo != 0)
+            {
+                <div class="widget-body">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item col-md-12">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">标况流量正常范围</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input StdFlowLow" value="@device.StdFlowLow">
+                                </div>
+                                <div class="layui-form-mid">—</div>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input StdFlowUpper" value="@device.StdFlowUpper">
+                                </div>
+                            </div>
+                            <div class="layui-inline second-inline">
+                                <label class="layui-form-label">工况流量正常范围</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input WorkFlowLow" value="@device.WorkFlowLow">
+                                </div>
+                                <div class="layui-form-mid">—</div>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input WorkFlowUpper" value="@device.WorkFlowUpper">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item col-md-12">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">压力正常范围</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input PressLow" value="@device.PressLow">
+                                </div>
+                                <div class="layui-form-mid">—</div>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input PressUpper" value="@device.PressUpper">
+                                </div>
+                            </div>
+                            <div class="layui-inline  second-inline">
+                                <label class="layui-form-label">温度正常范围</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input TempLow" value="@device.TempLow">
+                                </div>
+                                <div class="layui-form-mid">—</div>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input TempUpper" value="@device.TempUpper">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item col-md-12">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">供电电压正常范围</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input PowerLow" value="@device.PowerLow">
+                                </div>
+                                <div class="layui-form-mid">—</div>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_max" placeholder="" autocomplete="off" class="layui-input PowerUpper" value="@device.PowerUpper">
+                                </div>
+                            </div>
+                            <div class="layui-inline  second-inline">
+                                <label class="layui-form-label">电池电压下限</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input BatteryLow" style="width:37%" value="@device.BatteryLow">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item col-md-12">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">剩余金额下限</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input RemainMoneyLow" value="@device.RemainMoneyLow">
+                                </div>
+                            </div>
+                            <div class="layui-inline  second-inline">
+                                <label class="layui-form-label">剩余气量下限</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input RemainVolumLow" value="@device.RemainVolumLow">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item col-md-12">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">过零金额上限</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input OverMoneyUpper" value="@device.OverMoneyUpper">
+                                </div>
+                            </div>
+                            <div class="layui-inline  second-inline">
+                                <label class="layui-form-label">过零气量上限</label>
+                                <div class="layui-input-inline" style="width: 30%;">
+                                    <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input OverVolumeUpper" value="@device.OverVolumeUpper">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item col-md-12">
+                            <label class="layui-form-label">柜门报警开关</label>
+                            <select class="layui-input layui-unselect DoorAlarm">
+                                @if (device.DoorAlarm == 1)
+                                {
+                                    <option value="0">关</option>
+                                    <option value="1" selected="">开</option>
+                                }
+                                else
+                                {
+                                    <option value="0" selected="">关</option>
+                                    <option value="1">开</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="fc"></div>
+                    </form>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <button class="btn btn-info btn-save" data-meterNo="@device.meterNo">更新</button>
+                        </div>
+                    </div>
+                    <div class="fc"></div>
+                </div>
+
+            }
+            else
+            {
+                <div class="widget-body">
+                    <p>不存在此表或您没有权限查看</p>
+                </div>
+            } }
+    </div>
+</div>

@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "CustomerList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var pIds = new List<int>();
+    //pIds = ViewBag.pIds;
+
+    var userLv = new HHTDCDMR.Models.Extend.Res.UserLv();
+    userLv = ViewBag.UserLv;
+    var user2 = userLv.list;
+    var user3 = new List<HHTDCDMR.Models.Extend.Res.UserLv>();
+    if (user2 != null)
+    {
+        user3 = user2.First().list;
+    }
+}
+
+@section js{
+    <script src="~/Current/js/Device/customerList.js?201808271640"></script>
+}
+
+@{ var estateList = new List<DbOpertion.Models.EstateInfo>();
+    estateList = ViewBag.estateList;
+    var operatorList = new List<DbOpertion.Models.AllInOne_UserInfo>();
+    operatorList = ViewBag.operatorList;
+}
+<link href="~/Current/js/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table {
+        font-size: 12px;
+    }
+
+    .rt_content {
+        padding: 20px;
+        width: 100%;
+        min-height: 100px;
+        overflow: scroll;
+        border: 1px solid #ccc;
+    }
+
+        .rt_content table {
+            width: 1730px;
+        }
+
+    .btn-getExcel {
+        margin-left: 8px;
+    }
+</style>
+<section class="rt_wrap content mCustomScrollbar">
+
+    <div class="page_title">
+        <h2 class="fl">客户列表</h2>
+        <button class="btn btn-info tds-90 fr  btn-getExcel" type="button">
+            导出Excel
+        </button>
+
+        <button class="btn btn-block btn-info tds-2x fr  btn-addCustomer" type="button">
+            新增客户
+        </button>
+    </div>
+    <section class="mtb">
+
+        @if (userLv.list != null)
+        {
+            if (userLv.lv == "100")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv99" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                    if (user3 != null && user3.Count > 0)
+                    {
+                        <input type="text" class="textbox textbox_225 layui-input tds-2v fl input-lv98" autocomplete="off" list="history2" value="" />
+                        <datalist id="history2">
+                            @foreach (var item in user3)
+                            {
+                                <option data-cid="@item.cid" value="@item.name"></option>
+                            }
+                        </datalist>
+                    }
+                }
+            }
+            else if (userLv.lv == "99")
+            {
+                if (user2 != null && user2.Count > 0)
+                {
+                    <input type="text" class="textbox textbox_225 layui-input tds-3x fl input-lv98" autocomplete="off" list="history" value="" />
+                    <datalist id="history">
+                        @foreach (var item in user2)
+                        {
+                            <option data-cid="@item.cid" value="@item.name"></option>
+                        }
+                    </datalist>
+                }
+            }
+        }
+
+        <select class="select s-useState layui-input tds-75 fl">
+            <option value="">客户状态</option>
+            <option value="0">未启用</option>
+            <option value="1">已启用</option>
+            <option value="2">已停用</option>
+        </select>
+        <select class="select s-customerType layui-input tds-75 fl">
+            <option value="">客户类型</option>
+            <option value="0">居民</option>
+            <option value="1">公建</option>
+            <option value="2">工业</option>
+            <option value="3">商福</option>
+        </select>
+        <select class="select s-factoryNo layui-input tds-75 fl">
+            <option value="">设备厂家</option>
+            <option value="08">上海信东</option>
+        </select>
+        <select class="select s-meterType layui-input tds-75 fl">
+            <option value="">设备类型</option>
+            <option value="11">一体机</option>
+        </select>
+        <select class="select s-operator layui-input tds-75 fl">
+            <option value="">操作人员</option>
+            @{ foreach (var item in operatorList)
+                {
+                    <option value="@item.name">@item.name</option>
+                }}
+        </select>
+        <input type="text" class="textbox textbox_225 input-search layui-input tds-4v fl" placeholder="客户名称/地址/客户编号/移动电话" />
+        <input type="button" value="查询" class="group_btn btn-search" />
+        <div class="fc"></div>
+    </section>
+
+    <div class="rt_content">
+        <table class="table" id="fixtable">
+            <tr>
+                <th class="th-sort sorting" data-sort="customerNo" title="客户编号" width="92">客户编号</th>
+                <th class="th-sort sorting" data-sort="customerName" title="客户名称">客户名称</th>
+                <th class="th-sort sorting" data-sort="customerType" title="客户类型">客户类型</th>
+                <th class="th-sort sorting" data-sort="useState" title="使用状态">使用状态</th>
+                <th class="th-sort sorting" data-sort="factoryName" title="表计厂家">表计厂家</th>
+                <th class="th-sort sorting" data-sort="meterTypeName" title="表计类型">表计类型</th>
+                <th class="th-sort sorting" data-sort="telNo" title="固定电话">固定电话</th>
+                <th class="th-sort sorting" data-sort="mobileNo" title="移动电话">移动电话</th>
+                <th class="th-sort sorting" data-sort="estateName" title="小区名称">小区名称</th>
+                <th class="th-sort sorting" data-sort="address" title="详细地址">详细地址</th>
+                <th class="th-sort sorting" data-sort="defineNo1" title="自定义编号1">自定义编号1</th>
+                <th class="th-sort sorting" data-sort="defineNo2" title="自定义编号2">自定义编号2</th>
+                <th class="th-sort sorting" data-sort="defineNo3" title="自定义编号3">自定义编号3</th>
+                <th class="th-sort sorting" data-sort="remark" title="备注">备注</th>
+                <th class="th-sort sorting" data-sort="buildTime" title="建档时间">建档时间</th>
+                <th class="th-sort sorting" data-sort="editTime" title="最后编辑时间">最后编辑时间</th>
+                <th class="th-sort sorting" data-sort="Operator" title="操作员名称">操作员名称</th>
+            </tr>
+        </table>
+        <aside class="paging">
+            <a>第一页</a>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+            <a>…</a>
+            <a>1004</a>
+            <a>最后一页</a>
+        </aside>
+    </div>
+</section>
+
